@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDK DEMO</title>
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        #start {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+        }
+        #main {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        .btn {
+            color: #fff;
+            background-color: #2ea44f;
+            border-color: rgba(27, 31, 35, .15);
+            box-shadow: 0 1px 0 rgba(27, 31, 35, .1), inset 0 1px 0 hsla(0, 0%, 100%, .03);
+            margin: 10px 0;
+            position: relative;
+            padding: 5px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 20px;
+            white-space: nowrap;
+            vertical-align: middle;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            border: 1px solid;
+            border-radius: 6px;
+            -webkit-appearance: none;
+        }
+        #back {
+            position: absolute;
+            right: 20px;
+            background: #999;
+            z-index: 10;
+        }
+        #back a{
+            color: #fff;
+            text-decoration: none;
+            border: none;
+            outline: none;
+        }
+
+
+        #weikeListDom {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            background: #E8EDEB
+        }
+        .weike {
+            position: relative;
+            width: 300px;
+            height: 225px;
+            margin: 20px 30px;
+            background: #FFFFFF;
+            border-radius: 8px;
+            font-size: 24px;
+            border: 1px solid #EAEBED;
+            box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .weike.create {
+            text-align: center;
+            font-size: 36px;
+            line-height: 225px;
+            border: #666666 dashed 2px;
+            user-select: none;
+        }
+
+        .editBtn, .uploadBtn, .playBtn, .deleteBtn {
+            width: 80px;
+            height: 20px;
+            line-height: 20px;
+            text-align: center;
+            user-select: none;
+        }
+        .editBtn, .uploadBtn, .playBtn {
+            display: none;
+        }
+        .draft .editBtn, .uploadBroken .uploadBtn, .uploaded .playBtn{
+            display: block;
+        }
+        .weike .topic {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            line-height: 30px;
+            padding: 8px;
+            word-break: break-all;
+        }
+        .weike .tag {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            white-space: nowrap;
+            line-height: 30px;
+        }
+        .weike .cover {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+        }
+        .weike .btns {
+            z-index: 10;
+            display: none;
+        }
+        .weike:hover .btns {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            width: width;
+            align-items: center;
+            justify-content: space-evenly;
+        }
+
+
+
+    </style>
+</head>
+<body>
+    <div id="start">
+        <div id="back" class="btn"><a href="./demo.html">返回</a></div>
+        <div id="weikeListDom">
+            <div id="createWeikeDom" class="weike create">+</div>
+            <div id="draftStartDom" style="display: none;"></div>
+            <div id="uploadingStartDom" style="display: none;"></div>
+            <div id="uploadedStartDom" style="display: none;"></div>
+        </div>
+    </div>
+    <div id="main"></div>
+    <script src="https://wwwr.plaso.cn/static/sdk/js/plaso_style_upime-1.8.400.js"></script>
+    <script src="./js/crypto-js.js"></script>
+    <script>
+
+        // TODO: 请填入该调试环境下的appId 和 appKey
+        const appId = 'sdk4u6';
+        const appKey = 'ZDEwOTNhNmMxMDQwODVhNDU2MWMwYTJj';
+        function getSign(param){
+            param.appId = appId;
+            param.validBegin = param.validBegin || ~~(Date.now() / 1000);
+            param.validTime = param.validTime || 120;
+            let s = [];
+            Object.keys(param).sort().forEach(k=>s.push(`${k}=${encodeURIComponent(param[k])}`));
+            s = s.join('&');
+            s += `&signature=${CryptoJS.enc.Hex.stringify(CryptoJS.HmacSHA1(s, appKey)).toUpperCase()}`;
+            return Promise.resolve(s);
+        }
+
+        const testDir = "C:/test/";
+        function insertAfter(newNode, referenceNode) {
+            referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+        }
+        function genWeikeDom(info) {
+            let dom = document.createElement("div");
+            dom.id = "weike-" + info.id;
+            dom.className = "weike " + info.state;
+            let tagName, beforeDom;
+            switch(info.state) {
+                case "draft":beforeDom = draftStartDom;tagName = "草稿";break;
+                case "uploadBroken":beforeDom = uploadingStartDom;tagName = "上传中断";break;
+                default:beforeDom = uploadedStartDom;tagName = "已上传"
+            }
+            dom.innerHTML = `
+                <div class="topic">${info.topic}</div>
+                <div class="tag">${tagName}</div>
+                <div class="cover"></div>
+                <div class="btns">
+                    <div class="editBtn">编辑</div>
+                    <div class="uploadBtn">上传</div>
+                    <div class="playBtn">播放</div>
+                    <div class="deleteBtn">删除</div>
+                </div>
+            `
+            let coverUrl = info.cover||'';
+            if(coverUrl && coverUrl.indexOf("http")<0) {
+                coverUrl += "?" + Date.now();
+            }
+            dom.getElementsByClassName("cover")[0].style.backgroundImage = `url("${coverUrl}")`;
+            dom.getElementsByClassName("deleteBtn")[0].onclick = deleteWeike.bind(null, info.id);
+            dom.getElementsByClassName("editBtn")[0].onclick = editWeike.bind(null, info.id);
+            dom.getElementsByClassName("playBtn")[0].onclick = playWeike.bind(null, info.id);
+            dom.getElementsByClassName("uploadBtn")[0].onclick = uploadWeike.bind(null, info.id);
+            insertAfter(dom ,beforeDom);
+        }
+        createWeikeDom.onclick = function createWeike() {
+            let id = Math.floor(Date.now() / 1000);
+            let info = {
+                id,
+                topic: "新建微课",
+                state: "draft",
+                saved: false,
+                path: testDir + "/" + id
+            }
+            weikeList.push(info);
+            localStorage.setItem("weikeList", JSON.stringify(weikeList));
+            genWeikeDom(info);
+            launchWeiKeSDK(info);
+        }
+        function editWeike(id) {
+            let info = weikeList.find(item => item.id === id);
+            launchWeiKeSDK(info);
+        }
+        function deleteWeike(id) {
+            let i = weikeList.findIndex(item => item.id === id);
+            let info = weikeList[i];
+            weikeList.splice(i, 1);
+            let dom = document.getElementById("weike-"+id);
+            weikeListDom.removeChild(dom);
+            localStorage.setItem("weikeList", JSON.stringify(weikeList));
+        }
+
+
+
+
+
+        /* 户如果需要上传到自己的oss，请实现getOssToken方法。token属性
+            "accessKeyId":string,
+            "accessKeySecret":string,
+            "stsToken":string,
+            "uploadPath":string,//要上传到bucket下的目录路径
+            "bucket":string,
+            "region":string,
+            "provider":string,//要上传到的云,目前仅支持阿里"OSS".例provider:"OSS"
+            "expire": number//有效时间秒数(绝对时间),如 Math.floor((Date.now() / 1000))
+        */
+        var getOssToken;
+        // function getOssToken() {
+        // }
+
+        function launchWeiKeSDK({id, path, topic}) {
+            start.style.display = "none";
+            var options = {
+                path,
+                topic,
+                autoClose: true,
+                enablePreview:true,
+            }
+            var interfaces = {
+                onReady: function() {
+                    console.log("ready");
+                },
+                onCancel: function() {
+                    start.style.display = "";
+                    let i = weikeList.findIndex(item => item.id === id);
+                    let info = weikeList[i];
+                    if(!info.saved) {
+                        // 未保存的草稿，直接删除
+                        weikeList.splice(i, 1);
+                        localStorage.setItem("weikeList", JSON.stringify(weikeList));
+                        let dom = document.getElementById("weike-"+id);
+                        weikeListDom.removeChild(dom);
+                    }
+                    // 如果未设置autoClose参数，还需要手动调用destroy方法
+                    // recorder.destroy();
+                },
+                onSaveDraft: function(lessonInfo) {
+                    console.log("draft saved: ", lessonInfo)
+                    let i = weikeList.findIndex(item => item.id === id);
+                    let info = weikeList[i];
+                    weikeList.splice(i, 1);
+                    info.saved = true;
+                    info.cover = lessonInfo.cover;
+                    weikeList.push(info);
+                    let dom = document.getElementById("weike-"+id);
+                    dom.getElementsByClassName("cover")[0].style.backgroundImage = `url("${info.cover}?${Date.now()}")`
+                    insertAfter(dom, draftStartDom);
+                    localStorage.setItem("weikeList", JSON.stringify(weikeList));
+                },
+                onFinished: function(lessonInfo) {
+                    console.log("finished: ", lessonInfo);
+                    let i = weikeList.findIndex(item => item.id === id);
+                    let info = weikeList[i];
+                    weikeList.splice(i, 1);
+                    info.cover = lessonInfo.cover;
+                    info.topic = lessonInfo.topic;
+                    info.recordId = lessonInfo.recordId;
+                    info.state = "uploading";
+                    weikeList.push(info);
+                    localStorage.setItem("weikeList", JSON.stringify(weikeList));
+                    let dom = document.getElementById("weike-"+id);
+                    dom.className = "weike uploading";
+                    dom.getElementsByClassName("topic")[0].innerHTML = info.topic;
+                    dom.getElementsByClassName("tag")[0].innerHTML = "上传中";
+                    dom.getElementsByClassName("cover")[0].style.backgroundImage = `url("${info.cover}?${Date.now()}")`
+                    insertAfter(dom, uploadingStartDom);
+                    start.style.display = "";
+                    recorder.destroy();
+                    uploadWeike(id);
+                },
+                getOpQuery: function getOpQuery(opParam){
+                    return getSign(opParam);
+                }
+            }
+            var recorder = PlasoStyleUpime.createLocalClient(main, options, interfaces);
+        }
+        async function uploadWeike(id) {
+            let dom = document.getElementById("weike-"+id);
+            dom.className = "weike uploading";
+            dom.getElementsByClassName("tag")[0].innerHTML = "上传中";
+            let info = weikeList.find(item => item.id === id);
+            let uploadStatus = {
+                onUploadFinished:function({code,path,cover}){
+                    console.log(arguments);
+                    let i = weikeList.findIndex(item => item.id === id);
+                    if(i<0) return;
+                    let info = weikeList[i];
+                    weikeList.splice(i, 1);
+                    info.cover = cover;
+                    info.state = "uploaded";
+                    weikeList.push(info);
+                    localStorage.setItem("weikeList", JSON.stringify(weikeList));
+                    dom.className = "weike uploaded";
+                    dom.getElementsByClassName("tag")[0].innerHTML = "已上传";
+                    dom.getElementsByClassName("cover")[0].style.backgroundImage = `url("${info.cover}")`
+                    insertAfter(dom, uploadedStartDom);
+
+                },
+                onUploadProgress:function(){
+                    console.log(arguments);
+                }
+            }
+            var option = {
+                autoDelete: true,
+                uploadStatus,
+            }
+            if(getOssToken) option.token = await getOssToken();
+            var query = await getSign({op: 2, recordId: info.recordId });
+            PlasoStyleUpime.save(query, info.path, option);
+        }
+
+        function playWeike(id) {
+            let info = weikeList.find(item => item.id === id);
+            let { recordId } = info;
+            console.log("recordId:\n%c"+recordId, "color:red;font-size: 36px")
+        }
+
+        // 加载草稿、微课列表
+        var weikeList = localStorage.getItem("weikeList");
+        weikeList = weikeList ? JSON.parse(weikeList) : [];
+        for(let i=0;i<weikeList.length;i++) {
+            let info = weikeList[i]
+            if(info.state == "uploading") info.state = "uploadBroken";
+            genWeikeDom(info);
+        }
+    </script>
+</body>
+</html>

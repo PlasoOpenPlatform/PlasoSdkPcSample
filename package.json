@@ -1,0 +1,47 @@
+{
+  "main": "main.js",
+  "name": "plaso_sdk",
+  "scripts": {
+    "debug": "electron . --debug",
+    "build:win": "electron-packager . --overwrite --platform=win32 --arch=ia32 --out=build --electron-version=5.0.13",
+    "build:mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --out=build --electron-version=5.0.13"
+  },
+  "homepage": "http://.",
+  "default_locale": "en",
+  "version": "0.6.117",
+  "marketString": "",
+  "description": "```\r electron . --debug\r ```\r # js-sdk接入方法",
+  "chromium-args": "--ignore-certificate-errors --enable-usermedia-screen-capturing --ignore-gpu-blacklist --disable-gpu",
+  "single-instance": false,
+  "node-remote": true,
+  "oemName": "plaso",
+  "keywords": [
+    "Plaso"
+  ],
+  "window": {
+    "title": "SDK",
+    "icon": "icon.png",
+    "toolbar": false,
+    "transparent": false,
+    "show": true,
+    "width": 1180,
+    "height": 730,
+    "min_width": 1180,
+    "min_height": 730,
+    "frame": true
+  },
+  "webkit": {
+    "plugin": true
+  },
+  "dependencies": {
+    "@plasosdk/rtmpplayer": "^2.0.0",
+    "@plasosdk/screenshot": "^1.2.0",
+    "@plasosdk/winproxy": "^1.0.0",
+    "agora-electron-sdk": "2.9.0-rc.104"
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "author": "",
+  "license": "ISC"
+}

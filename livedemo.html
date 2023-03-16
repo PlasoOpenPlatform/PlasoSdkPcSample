@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SDK DEMO</title>
+    <style>
+        html, body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        #start {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        #start > hr {
+            width: 80%;
+            margin: 20px auto;
+            border: 1px dotted #ccc;
+        }
+        .path {
+            display: none;
+        }
+        .select-btn{
+            font-size: 16px;
+            width: 180px;
+            margin-left: 30px;
+        }
+        #main {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        .btn {
+            color: #fff;
+            background-color: #2ea44f;
+            border-radius: 6px;
+            position: relative;
+            font-size: 14px;
+            font-weight: 500;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-appearance: none;
+        }
+        .btn, .select-btn {
+            padding: 5px 16px;
+            line-height: 20px;
+            border: 1px solid;
+            border-color: rgba(27, 31, 35, .15);
+            box-shadow: 0 1px 0 rgba(27, 31, 35, .1), inset 0 1px 0 hsla(0, 0%, 100%, .03);
+        }
+        .inputValueBox{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 10px 0;
+        }
+        .inputValueBox > div{
+            margin: 20px;
+            height: 30px;
+            line-height: 30px;
+            font-size: 18px;
+        }
+        .inputValueBox > div >span{
+            margin-right: 10px;
+        }
+        .inputValue{
+            border: 1px solid #ccc;
+            background: transparent;
+            height: 100%;
+            line-height: 30px;
+            font-size: 18px;
+            border-radius: 4px;
+        }
+        #back {
+            font-size: 16px;
+            text-decoration: none;
+            color: #333333;
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            display: inline-block;
+            width: 40px;
+            border-bottom: 1px solid #333333;
+            text-align: center;
+            z-index: 99;
+        }
+        .fileCenterView{
+            position: absolute;
+            display: none;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,.4);
+            z-index: 100;
+        }
+        .fileCenter{
+            width: 50%;
+            height: 80%;
+            background: #ffffff;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 8px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        .viewTitle{
+            height: 50px;
+            font-size: 20px;
+            line-height: 50px;
+            color: #333333;
+            text-align: center;
+            border-bottom: 1px solid #666;
+        }
+        .fileData{
+            display: flex;
+            align-items: center;
+            height: 40px;
+            line-height: 40px;
+            padding: 0 20px;
+            width: 100%;
+            cursor: pointer;
+        }
+        .fileData:hover{
+            background: #eeeeee;
+        }
+        .fileData:active{
+            background: #cccccc;
+        }
+        .fileName{
+            width: 20%;
+            text-align: center;
+            font-size: 18px;
+            color: #333;
+            pointer-events: none;
+        }
+        .fileDescription{
+            flex-grow: 1;
+            text-align: center;
+            font-size: 16px;
+            color: #666666;
+            font-style: italic;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="start">
+        <div id="back">
+            <a href="javascript:void(history.back());"  class="back">返回</a>
+        </div>
+        <div class="inputValueBox">
+            <div>
+                <span>query</span>
+                <input class="inputValue" name="query" id="query" style="width: 800px;"/>
+            </div>
+            
+        </div>
+        <div class="inputValueBox">
+            <div>
+                <div id="startBtn" class="btn">进入实时课堂</div>
+            </div>
+        </div>
+        </div>
+    <div class="fileCenterView" id="fileCenterView">
+        <div class="fileCenter">
+            <div class="viewTitle">资料中心</div>
+            <div class="fileDataList" id="fileDataList">
+                <div class="fileData" id="ppt" data-dataType="fileData">
+                    <div class="fileName">PPT.ppt</div>
+                    <div class="fileDescription">这是一个ppt...</div>
+                </div>
+                <div class="fileData" id="audio" data-dataType="fileData">
+                    <div class="fileName">Audio.mp3</div>
+                    <div class="fileDescription">这是一个音频...</div>
+                </div>
+                <div class="fileData" id="video" data-dataType="fileData">
+                    <div class="fileName">Video.mp4</div>
+                    <div class="fileDescription">这是一个视频...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="main" style="display: none;"></div>
+    <script src="https://wwwr.plaso.cn/static/sdk/js/plaso_style_upime-1.8.400.js"></script>
+    <script src="./js/crypto-js.js"></script>
+    <script>
+        startBtn.onclick = function() {
+            main.style.display = "";
+            start.style.display = "none";
+            var options = {
+                query: query.value,
+                autoClose: true
+            }
+            var infoType = {
+                url:"url",
+                object:"object"
+            }
+            var interfaces = {
+                getExtFileName: function(info) {
+                    var data = info[1];
+                    switch(info[0]){
+                        case infoType.url: return Promise.resolve(data);
+                        case infoType.object: return Promise.resolve(data.host+data.path+data.fileName);
+                    }
+                },
+                showResourceCenter: function(){
+                    var fileCenterView = document.getElementById("fileCenterView");
+                    fileCenterView.style.display = "block";
+                    var fileDataList = document.getElementById("fileDataList");
+                    var dataMap = {
+                        "ppt":{
+                            type:PlasoStyleUpime.FILETYPE.PPT,
+                            title:'demo.ppt',
+                            info: [infoType.url,"https://file-plaso.oss-cn-hangzhou.aliyuncs.com/dev-plaso/teaching/800423/1701748_0_1663397022344.pptx_p"]
+                        },
+                        "audio":{
+                            type:PlasoStyleUpime.FILETYPE.AUDIO,
+                            title:'demo.mp3',
+                            info: [infoType.url,"https://file-plaso.oss-cn-hangzhou.aliyuncs.com/dev-plaso%2Fteaching%2F182%2F1553651059818-15.mp3"]
+                        },
+                        "video":{
+                            type:PlasoStyleUpime.FILETYPE.VIDEO,
+                            title:'demo.mp4',
+                            info: [infoType.object,{
+                                host:"https://mpv.videocc.net/",
+                                path:"5153980715/4/",
+                                fileName: "51539807153b13e46a6357535478c814_1.mp4",
+                            }]
+                        }
+                    }
+                    function action(event){
+                        if(event.target.dataset.datatype === "fileData"){
+                            recorder.insertObject(dataMap[event.target.id]);
+                            fileCenterView.style.display = "none";
+                            fileDataList.removeEventListener('click',action);
+                        } 
+                    }
+                    fileDataList.addEventListener('click',action);
+                },
+                onExit: function() {
+                    start.style.display = "";
+                    main.style.display = "none";
+                }
+            }
+            var recorder = PlasoStyleUpime.createLiveClient(main, options, interfaces);
+        }
+    </script>
+</body>
+</html>
