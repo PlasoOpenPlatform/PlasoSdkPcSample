@@ -7,7 +7,7 @@ electron . --debug
 ## 实时课堂
 ### 接入步骤
 #### 1 引入PlasoStyleUpime.js
-js地址：https://wwwr.plaso.cn/static/sdk/js/plaso_style_upime-1.0.js
+js地址：https://wwwr.plaso.cn/static/sdk/js/plaso_style_upime-${version}.js
 #### 2 创建sdkClient
 ```javascript
 var sdkClient = PlasoStyleUpime.createLiveClient(dom, options, interfaces);
@@ -47,7 +47,7 @@ function onExit() {
 * 在app根目录下的 lib/lame/ 中存放lame的可执行文件
 * 如果是windows系统，还要在app根目录下的 lib/ 中存放 zip.exe 
 #### 1 引入PlasoStyleUpime.js
-js地址：https://wwwr.plaso.cn/static/sdk/js/plaso_style_upime-1.0.js
+js地址：https://wwwr.plaso.cn/static/sdk/js/plaso_style_upime-${version}.js
 #### 2 创建sdkClient
 调用**PlasoStyleUpime.createLocalClient**创建微课录制的sdkClient对象
 ```javascript

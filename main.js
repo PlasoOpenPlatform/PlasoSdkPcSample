@@ -2,14 +2,6 @@ const isElectron = !!process.versions['electron'];
 if (isElectron) {
     const path = require('path');
     const fs = require('fs');
-    try{
-        require("@plasosdk/winproxy");
-        require("@plasosdk/screenshot");
-        require("@plasosdk/rtmpplayer");
-    }
-    catch(e) {
-        console.log(e);
-    }
     const { app, Menu, ipcMain, BrowserWindow } = require('electron');
     const isDarwin = process.platform == 'darwin';
 

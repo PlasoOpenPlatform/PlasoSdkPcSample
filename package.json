@@ -2,9 +2,7 @@
   "main": "main.js",
   "name": "plaso_sdk",
   "scripts": {
-    "debug": "electron . --debug",
-    "build:win": "electron-packager . --overwrite --platform=win32 --arch=ia32 --out=build --electron-version=5.0.13",
-    "build:mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --out=build --electron-version=5.0.13"
+    "debug": "electron . --debug"
   },
   "homepage": "http://.",
   "default_locale": "en",
@@ -32,12 +30,6 @@
   },
   "webkit": {
     "plugin": true
-  },
-  "dependencies": {
-    "@plasosdk/rtmpplayer": "^2.0.0",
-    "@plasosdk/screenshot": "^1.2.0",
-    "@plasosdk/winproxy": "^1.0.0",
-    "agora-electron-sdk": "2.9.0-rc.104"
   },
   "directories": {
     "lib": "lib"
