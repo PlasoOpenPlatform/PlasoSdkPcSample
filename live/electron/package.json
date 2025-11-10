@@ -1,0 +1,69 @@
+{
+    "name": "plaso_electron_sdk_demo",
+    "version": "1.0.0",
+    "description": "",
+    "keywords": [
+        "Plaso"
+    ],
+    "homepage": ".",
+    "license": "ISC",
+    "main": "main.js",
+    "scripts": {
+        "pack": "electron-builder --dir"
+    },
+    "dependencies": {
+        "@electron/remote": "^2.1.2",
+        "@plasosdk/plaso-electron-sdk": "1.3.8"
+    },
+    "devDependencies": {
+        "electron": "^22.3.27",
+        "electron-builder": "^26.0.12"
+    },
+    "build": {
+        "asar": false,
+        "extraResources": [
+            {
+                "from": "node_modules/@plasosdk/plaso-electron-sdk/node_modules/agora-electron-sdk-v4",
+                "to": "app/node_modules/@plasosdk/plaso-electron-sdk/node_modules/agora-electron-sdk-v4",
+                "filter": [
+                    "**/*"
+                ]
+            },
+            {
+                "from": "node_modules/@plasosdk/plaso-electron-sdk/node_modules/agora-electron-sdk-v4/node_modules",
+                "to": "app/node_modules/@plasosdk/plaso-electron-sdk/node_modules/agora-electron-sdk-v4/node_modules",
+                "filter": [
+                    "**/*"
+                ]
+            },
+            {
+                "from": "../src",
+                "to": "src",
+                "filter": [
+                    "**/*"
+                ]
+            }
+        ]
+    },
+    "chromium-args": "--ignore-certificate-errors --enable-usermedia-screen-capturing --ignore-gpu-blacklist --disable-gpu",
+    "default_locale": "en",
+    "marketString": "",
+    "node-remote": true,
+    "oemName": "plaso",
+    "single-instance": false,
+    "webkit": {
+        "plugin": true
+    },
+    "window": {
+        "title": "Plaso Electron SDK Demo",
+        "icon": "icon.png",
+        "toolbar": false,
+        "transparent": false,
+        "show": true,
+        "width": 1280,
+        "height": 720,
+        "min_width": 1280,
+        "min_height": 720,
+        "frame": true
+    }
+}

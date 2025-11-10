@@ -2,13 +2,13 @@
   "main": "main.js",
   "name": "plaso_sdk",
   "scripts": {
-    "debug": "electron . --debug"
+    "start": "electron main.js"
   },
   "homepage": "http://.",
   "default_locale": "en",
   "version": "0.6.117",
   "marketString": "",
-  "description": "```\r electron . --debug\r ```\r # js-sdk接入方法",
+  "description": "",
   "chromium-args": "--ignore-certificate-errors --enable-usermedia-screen-capturing --ignore-gpu-blacklist --disable-gpu",
   "single-instance": false,
   "node-remote": true,
@@ -16,6 +16,9 @@
   "keywords": [
     "Plaso"
   ],
+  "dependencies": {
+    "electron": "^22.3.27"
+  },
   "window": {
     "title": "SDK",
     "icon": "icon.png",

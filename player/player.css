@@ -1,0 +1,49 @@
+.plaso-player {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.plaso-player__stage {
+    flex: 1;
+    width: 100%;
+}
+
+.plaso-player__controls {
+    padding: 20px;
+    background: #f0f0f0;
+}
+
+.plaso-player__scrubber {
+    width: 100%;
+    height: 20px;
+    background: #ddd;
+    position: relative;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.plaso-player__progress {
+    height: 100%;
+    background: #4caf50;
+}
+
+.plaso-player__toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.plaso-player__play-pause {
+    padding: 5px 15px;
+}
+
+.plaso-player__speed-label {
+    margin-left: 20px;
+}
+
+.plaso-player__speed {
+    margin-left: 5px;
+}
+
