@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Plaso SDK 示例</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+
+    <body class="bg-gray-100 p-8">
+        <h1 class="text-3xl font-bold mb-8 text-gray-800">Plaso SDK 示例</h1>
+        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 rounded">
+            <div class="flex">
+                <div class="flex-shrink-0">
+                    <svg class="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <div class="ml-3">
+                    <p class="text-sm text-yellow-700">
+                        <strong class="font-medium">提示：</strong>
+                        为确保示例程序正常运行，请根据实际业务需求实现 <code class="bg-yellow-100 px-1 rounded">common/mock.js</code> 文件中定义的各接口方法，包括但不限于向服务端拿进课堂参数等核心功能
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <a href="./live/web/live.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+                <h2 class="text-xl font-semibold">直播 (Web)</h2>
+            </a>
+            <a
+                onclick="alert('请用 electron 启动 live/electron/main.js')"
+                href="javascript:void(0)"
+                class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition"
+            >
+                <h2 class="text-xl font-semibold">直播 (Electron)</h2>
+            </a>
+            <a href="./monitor/monitor.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+                <h2 class="text-xl font-semibold">监课</h2>
+            </a>
+            <a href="./cloud-recorder/cloud-recorder.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+                <h2 class="text-xl font-semibold">云录制</h2>
+            </a>
+            <a href="./player/player.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+                <h2 class="text-xl font-semibold">历史课堂播放</h2>
+            </a>
+            <a href="./player-recorder/player-recorder.html" class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+                <h2 class="text-xl font-semibold">历史课堂录制 (转 MP4)</h2>
+            </a>
+        </div>
+    </body>
+</html>

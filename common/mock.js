@@ -1,4 +1,4 @@
-const SDK_VERSION = "1.60.116";
+const SDK_VERSION = '1.60.116';
 
 /* ---------------------------------- live ---------------------------------- */
 export const mockLiveSdkUrl = () => {
@@ -51,7 +51,7 @@ export const mockPlayerSdkCssUrl = () => {
 };
 
 export const mockPlayerSdkHlsUrl = () => {
-    return "https://cdn.jsdelivr.net/npm/hls.js@0.12.2/dist/hls.min.js";
+    return 'https://wwwr.plaso.cn/static/sdk/js/hls.js';
 };
 
 export const mockPlayerQuery = async (recordId) => {

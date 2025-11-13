@@ -62,6 +62,7 @@ const App = () => {
     /* ----------------------------- 与录制者通信 - notify ---------------------------- */
     const notifyPlayReady = () => {
         window.upimePlayReady?.();
+        console.log('notifyPlayReady ', !!window.upimePlayReady);
     };
 
     const notifyPlayStart = () => {

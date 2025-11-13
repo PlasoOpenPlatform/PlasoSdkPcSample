@@ -3,6 +3,8 @@ module.exports = {
   semi: true,
   tabWidth: 4,
   useTabs: false,
+  singleQuote: true,
+  trailingComma: 'all',
   overrides: [
     {
       files: '*.less',
